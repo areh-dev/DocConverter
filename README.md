@@ -14,3 +14,6 @@ Timeout to wait LibreOffice process - 120 seconds. To change, use `FILE_CONVERT_
 ## Usage
 - `/status/` GET request returns OK if service is up and running
 - `/convert/` POST (with DOC \ XLS file content in body) request returns PDF in response body.
+
+## Usage in Docker
+Dockerfile, prebuilt jar file, and docker-compose.yml example included

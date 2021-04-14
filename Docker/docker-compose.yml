@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  app:
+    image: "lo-doc-converter"
+    container_name: "web-converter"
+    restart: always
+    
+    ports:
+      - "80:8080"
+
+    environment:
+      - FILE_CONVERT_TIMEOUT=300 # in seconds, default - 120
+
+    tmpfs: /app/temp
