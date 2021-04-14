@@ -1,5 +1,5 @@
 # DocConverter
-DocConverter - simple web-api document converter based on single threaded LibreOffice runner
+DocConverter - simple web-api document converter based on LibreOffice
 
 ## Requirements
 [LibreOffice](https://www.libreoffice.org/) should be installed

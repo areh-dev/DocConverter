@@ -1,9 +1,11 @@
 package ru.areh.DocConverter;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -76,15 +78,19 @@ public class ConverterController {
     }
 
 
-    private synchronized boolean startConverter(Path tempPath, Path originalFile) throws IOException, InterruptedException {
+    private boolean startConverter(Path tempPath, Path originalFile) throws IOException, InterruptedException {
+        var tempOfficeProfile = Paths.get(originalFile + ".profile/");
         var processBuilder = new ProcessBuilder(
                 "libreoffice",
+                "-env:UserInstallation=file://" + tempOfficeProfile,
                 "--headless",
                 "--convert-to", "pdf",
                 "--outdir", tempPath.toAbsolutePath().toString(),
                 originalFile.toString());
 
         var officeProcess = processBuilder.start();
-        return officeProcess.waitFor(fileConvertTimeout, TimeUnit.SECONDS);
+        var result = officeProcess.waitFor(fileConvertTimeout, TimeUnit.SECONDS);
+        FileUtils.deleteDirectory(new File(tempOfficeProfile.toString()));
+        return result;
     }
 }
